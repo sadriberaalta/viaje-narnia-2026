@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08101f" />
+  <title>Viaje a Narnia 2026 · App web móvil visual</title>
+  <style>
+    :root{
+      --gold:#d8b15a; --gold2:#f0dfaa; --text:#eff4ff; --muted:#c8d2e8;
+      --line:rgba(255,255,255,.14); --shadow:0 20px 60px rgba(0,0,0,.35); --max:1200px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:
+      radial-gradient(circle at 20% 0%, rgba(216,177,90,.18), transparent 25%),
+      radial-gradient(circle at 100% 10%, rgba(255,255,255,.05), transparent 18%),
+      linear-gradient(180deg, #050b16 0%, #091224 30%, #0d1730 60%, #091224 100%);
+      color:var(--text);line-height:1.65;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+    .serif{font-family:Georgia,"Times New Roman",serif}
+    .topbar{position:sticky;top:0;z-index:30;backdrop-filter:blur(10px);background:rgba(4,8,16,.45);border-bottom:1px solid rgba(255,255,255,.06)}
+    .topbar-inner{max-width:var(--max);margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{font-size:.84rem;letter-spacing:.14em;text-transform:uppercase;color:#f5e7bd;font-weight:800}
+    .nav{display:flex;gap:10px;flex-wrap:wrap}.nav a{color:#eef3ff;font-size:.92rem;padding:8px 12px;border-radius:999px;border:1px solid transparent}
+    .nav a:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+    .hero{min-height:100svh;position:relative;overflow:hidden;background:
+      linear-gradient(180deg, rgba(3,7,14,.22), rgba(3,7,14,.82)),
+      radial-gradient(circle at center 15%, rgba(255,255,255,.08), transparent 18%),
+      radial-gradient(circle at 50% 62%, rgba(216,177,90,.14), transparent 30%),
+      linear-gradient(180deg, rgba(7,16,29,.45), rgba(7,16,29,.95)),
+      url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat}
+    .snow,.snow2{pointer-events:none;position:absolute;inset:0;background-image:
+      radial-gradient(circle, rgba(255,255,255,.85) 1.3px, transparent 1.4px),
+      radial-gradient(circle, rgba(255,255,255,.55) 1.1px, transparent 1.2px),
+      radial-gradient(circle, rgba(255,255,255,.38) 1.6px, transparent 1.7px);
+      background-size:140px 140px,190px 190px,250px 250px;background-position:0 0,50px 40px,80px 120px;animation:drift 18s linear infinite;opacity:.55}
+    .snow2{animation-duration:28s;opacity:.35;transform:scale(1.15)} @keyframes drift{from{transform:translateY(-20px)}to{transform:translateY(60px)}}
+    .hero-content{position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:84px 20px 72px;min-height:calc(100svh - 62px);display:grid;grid-template-columns:1.12fr .88fr;gap:34px;align-items:end}
+    .kicker{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(216,177,90,.14);border:1px solid rgba(216,177,90,.22);color:#f4e5bb;font-weight:800;font-size:.92rem;margin-bottom:18px;backdrop-filter:blur(10px)}
+    .title{margin:0;font-size:clamp(3rem,7vw,6.2rem);line-height:.9;letter-spacing:-.04em;max-width:9ch;text-shadow:0 8px 30px rgba(0,0,0,.4)}
+    .subtitle{margin:18px 0 26px;max-width:46rem;font-size:clamp(1.08rem,2vw,1.36rem);color:#e5edff}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:12px}.pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#f1f5ff;padding:12px 15px;border-radius:999px;font-size:.95rem;backdrop-filter:blur(8px)}
+    .poster{background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.14);border-radius:34px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(12px);position:relative;overflow:hidden}
+    .poster h3{margin:0 0 10px;color:#fff;font-size:1.18rem}.poster p{margin:0;color:#e2eaff}.poster-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+    .poster-stat,.mini,.bib-item,.check,.crit,.time-step{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:16px}
+    .poster-stat strong{display:block;font-size:1.45rem;margin-bottom:4px;color:#fff}.poster-stat span{font-size:.92rem;color:#dbe5ff}
+    .section{position:relative;padding:84px 0 0}.section:first-of-type{padding-top:44px}
+    .section-title{display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+    .eyebrow{color:#f0ddb0;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;margin-bottom:10px}
+    h2{margin:0;font-size:clamp(2rem,4vw,3.4rem);line-height:.98}.section-title p{max-width:36rem;color:var(--muted);margin:0}
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));border:1px solid var(--line);border-radius:30px;padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+    .overview,.teacher,.bib-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .lead{font-size:1.08rem;color:#edf3ff}.subgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+    .mini h4,.footer h4{margin:0 0 8px;color:#fff}.mini p,.bib-item span,.time-step span{margin:0;color:#d8e1f5}
+    .quote{margin-top:18px;padding:18px 20px;border-left:4px solid var(--gold);background:rgba(216,177,90,.10);border-radius:18px;color:#f3e8c7;font-weight:700}
+    .toc{display:grid;grid-template-columns:1fr 1fr;gap:10px}.toc a{padding:14px 15px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);color:#eff4ff;font-weight:700}
+    .levels{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 18px}.level{padding:10px 14px;border-radius:999px;background:rgba(216,177,90,.12);border:1px solid rgba(216,177,90,.22);color:#f1e2b6;font-weight:800;font-size:.92rem}
+    .timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}.time-step strong{display:block;color:#fff1cb;margin-bottom:6px;font-size:1rem}
+    .symbols{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .card{grid-column:span 6;background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.10);border-radius:28px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg, var(--gold), var(--gold2))}
+    .card-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}.icon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(180deg, rgba(255,245,220,.18), rgba(216,177,90,.22));border:1px solid rgba(255,255,255,.14);font-size:1.8rem;flex:0 0 auto}
+    .card h3,.bib-item strong{margin:0 0 8px;color:#fff}.tags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}.tag{font-size:.8rem;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#eef3ff;font-weight:800}
+    .tag.gold{background:rgba(216,177,90,.12);border-color:rgba(216,177,90,.24);color:#f3e4b8}.chunk{margin-bottom:13px}.label{display:block;margin-bottom:5px;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#f0ddb0;font-weight:800}
+    .chunk p,.check,.crit{margin:0;color:#dde6fb}.key{margin-top:16px;padding:16px 18px;border-radius:18px;background:linear-gradient(180deg, rgba(216,177,90,.18), rgba(216,177,90,.10));border:1px solid rgba(216,177,90,.18);color:#fff0c8;font-weight:800}
+    .check{display:flex;gap:12px;align-items:flex-start}.num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(216,177,90,.14);border:1px solid rgba(216,177,90,.22);color:#f6e6b8;font-weight:800;flex:0 0 auto;margin-top:2px}
+    .bib-list,.crit-list,.checklist{display:grid;gap:12px;margin-top:16px}
+    .cta{margin:34px 0 0;text-align:center;padding:34px 20px;border-radius:30px;background:linear-gradient(180deg, rgba(216,177,90,.12), rgba(255,255,255,.05)),url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;border:1px solid rgba(255,255,255,.10);box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .cta::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(4,8,16,.45), rgba(4,8,16,.72))}.cta>*{position:relative;z-index:1}
+    .cta h3{margin:0 0 10px;font-size:clamp(1.8rem,4vw,3rem);color:#fff}.cta p{max-width:46rem;margin:0 auto;color:#e1e9fb;font-size:1.05rem}
+    footer{padding:34px 0 54px}.footer{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end}.footer p{margin:0;color:#d4ddf4}
+    .footer-meta{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.10);color:#eef3ff;font-size:.95rem}
+    @media (max-width:1080px){.hero-content,.overview,.teacher,.bib-grid{grid-template-columns:1fr}.timeline{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:860px){.nav{display:none}.symbols{grid-template-columns:1fr}.card{grid-column:span 1}.subgrid,.toc,.poster-grid{grid-template-columns:1fr}.footer{grid-template-columns:1fr}}
+    @media (max-width:560px){.wrap{padding:0 14px}.topbar-inner{padding:12px 14px}.hero-content{padding:56px 14px 40px}.panel,.card,.poster,.cta{padding:20px}.timeline{grid-template-columns:1fr}.hero-meta{display:grid}.pill,.level{width:100%;text-align:center}.title{max-width:10ch}.section{padding-top:64px}}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Diócesis de Getafe · Delegación Diocesana de Enseñanza</div>
+      <nav class="nav">
+        <a href="#obra">La obra</a>
+        <a href="#simbolos">7 símbolos</a>
+        <a href="#profesor">El profesor</a>
+        <a href="#bibliografia">Bibliografía</a>
+        <a href="#legado">Huella viva</a>
+      </nav>
+    </div>
+  </div>
+  <header class="hero">
+    <div class="snow"></div><div class="snow2"></div>
+    <div class="hero-content">
+      <section>
+        <div class="kicker">🦁 App web móvil visual · Sin vídeos</div>
+        <h1 class="title serif">El León, la Bruja y el Armario</h1>
+        <p class="subtitle">Guía para comprender el <strong>Viaje a Narnia 2026</strong>. Una experiencia inmersiva donde la simbología cristiana de C. S. Lewis se convierte en relato vivido, lectura teológica y acompañamiento pedagógico.</p>
+        <div class="hero-meta">
+          <div class="pill">17 de abril de 2026</div>
+          <div class="pill">La Granja de San Ildefonso</div>
+          <div class="pill">Primaria · Secundaria · Bachillerato</div>
+        </div>
+      </section>
+      <aside class="poster">
+        <h3>La jornada en una mirada</h3>
+        <p>El invierno, la tentación, el sacrificio, la resurrección y la coronación final forman una única narración de salvación que los alumnos recorren juntos.</p>
+        <div class="poster-grid">
+          <div class="poster-stat"><strong>7</strong><span>símbolos teológicos y pedagógicos</span></div>
+          <div class="poster-stat"><strong>≈ 4.000</strong><span>alumnos reunidos en la jornada</span></div>
+          <div class="poster-stat"><strong>Juan 15,13</strong><span>“Nadie tiene mayor amor que el que da la vida por sus amigos”</span></div>
+          <div class="poster-stat"><strong>0</strong><span>vídeos incrustados para evitar errores</span></div>
+        </div>
+      </aside>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="section" id="obra">
+      <div class="section-title">
+        <div><div class="eyebrow">La obra y el evento</div><h2 class="serif">Narnia como relato de fe vivido</h2></div>
+        <p>La guía ayuda al profesorado a interpretar la jornada y a descubrir cómo la imaginación de Lewis traduce el núcleo de la fe cristiana a un mundo narrativo que hoy puede ser recorrido por los alumnos.</p>
+      </div>
+      <div class="overview">
+        <article class="panel">
+          <p class="lead">C. S. Lewis construyó Narnia como una historia suposicional cristiana. No es un código oculto, sino una imaginación fiel: <strong>“¿Qué pasaría si Cristo viniera a un mundo como Narnia?”</strong></p>
+          <div class="subgrid">
+            <div class="mini"><h4>La obra</h4><p>Cada personaje, escena y conflicto posee un correlato teológico preciso. Aslan hace visible a Cristo en un mundo distinto.</p></div>
+            <div class="mini"><h4>El evento</h4><p>La jornada en La Granja traslada esta lógica a una experiencia real: los alumnos recorren la historia prueba a prueba.</p></div>
+          </div>
+          <div class="quote">El Viaje a Narnia 2026 no solo explica una simbología: la convierte en experiencia compartida, memoria afectiva y oportunidad educativa.</div>
+        </article>
+        <aside class="panel">
+          <div class="eyebrow">Lectura rápida</div>
+          <div class="levels"><span class="level">Primaria</span><span class="level">Secundaria</span><span class="level">Bachillerato</span></div>
+          <div class="toc"><a href="#simbolos">7 símbolos</a><a href="#profesor">El profesor</a><a href="#bibliografia">Bibliografía</a>
+        <a href="#legado">Huella viva</a><a href="#footer">Contacto</a></div>
+        </aside>
+      </div>
+      <div class="timeline">
+        <div class="time-step"><strong>1 · Llegada</strong><span>Aslan irrumpe y despierta la esperanza.</span></div>
+        <div class="time-step"><strong>2 · Invierno</strong><span>La Bruja muestra la herida del pecado y del miedo.</span></div>
+        <div class="time-step"><strong>3 · Redención</strong><span>El sacrificio de Aslan revela el amor que se entrega.</span></div>
+        <div class="time-step"><strong>4 · Victoria</strong><span>Resurrección, liberación y coronación final.</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="simbolos">
+      <div class="section-title">
+        <div><div class="eyebrow">Centro del documento</div><h2 class="serif">Los 7 símbolos de Narnia 2026</h2></div>
+        <p>Cada bloque une cuatro planos: la escena literaria, su lectura cristiana, su traducción en la jornada y una idea clave para acompañar a los alumnos.</p>
+      </div>
+      <div class="symbols">
+        <article class="card"><div class="card-head"><div class="icon">🦁</div><div><h3>La aparición de Aslan</h3><div class="tags"><span class="tag">Primaria</span><span class="tag">ESO</span><span class="tag">Bachillerato</span></div></div></div><div class="chunk"><span class="label">En Narnia</span><p>Aslan llega y lo transforma todo. El invierno cede y la esperanza vuelve.</p></div><div class="chunk"><span class="label">Significado cristiano</span><p>Representa a Cristo. Su llegada es la Encarnación: Dios entra en la historia humana para salvar.</p></div><div class="chunk"><span class="label">En Narnia 2026</span><p>El evento entero puede leerse como una llegada de Aslan: la Iglesia sale al encuentro del joven.</p></div><div class="key">Idea clave · Dios sale a nuestro encuentro.</div></article>
+        <article class="card"><div class="card-head"><div class="icon">❄️</div><div><h3>El invierno eterno de la Bruja Blanca</h3><div class="tags"><span class="tag">Primaria</span><span class="tag">ESO</span><span class="tag">Bachillerato</span></div></div></div><div class="chunk"><span class="label">En Narnia</span><p>“Siempre invierno y nunca Navidad.” La Bruja mantiene el mundo paralizado en el frío, el miedo y la muerte.</p></div><div class="chunk"><span class="label">Significado cristiano</span><p>Simboliza el mal y el pecado: un mundo sin gracia, sin alegría verdadera, incapaz de crecer.</p></div><div class="chunk"><span class="label">En Narnia 2026</span><p>La gymkhana arranca con una Narnia herida. Los alumnos viven la urgencia de salvarla.</p></div><div class="key">Idea clave · El pecado paraliza y petrifica.</div></article>
+        <article class="card"><div class="card-head"><div class="icon">🍬</div><div><h3>La tentación de Edmund</h3><div class="tags"><span class="tag">ESO</span><span class="tag">Bachillerato</span><span class="tag gold">Pastoral juvenil</span></div></div></div><div class="chunk"><span class="label">En Narnia</span><p>Edmund cede al dulce turco y traiciona a sus hermanos por promesas vacías de poder y placer.</p></div><div class="chunk"><span class="label">Significado cristiano</span><p>Paralelo con Judas y con cada ser humano: el pecado no suele parecer monstruoso, sino seductor.</p></div><div class="chunk"><span class="label">En Narnia 2026</span><p>Su historia abre la reflexión sobre la fragilidad, el perdón recibido y la segunda oportunidad.</p></div><div class="key">Idea clave · Todos somos Edmund; todos podemos ser perdonados.</div></article>
+        <article class="card"><div class="card-head"><div class="icon">✝️</div><div><h3>El sacrificio de Aslan en la Mesa de Piedra</h3><div class="tags"><span class="tag">ESO</span><span class="tag">Bachillerato</span><span class="tag gold">Símbolo central</span></div></div></div><div class="chunk"><span class="label">En Narnia</span><p>Aslan muere voluntariamente en lugar de Edmund. El inocente asume la deuda del culpable por amor.</p></div><div class="chunk"><span class="label">Significado cristiano</span><p>La Crucifixión. Cristo muere por los culpables y revela que el amor gratuito es más fuerte que la muerte.</p></div><div class="chunk"><span class="label">En Narnia 2026</span><p>La cita de Juan 15,13 —“Nadie tiene mayor amor que el que da la vida por sus amigos”— es el corazón de la jornada.</p></div><div class="key">Idea clave · Jn 15,13. El código 1327 es el centro teológico y emocional del evento.</div></article>
+        <article class="card"><div class="card-head"><div class="icon">🌅</div><div><h3>La resurrección de Aslan</h3><div class="tags"><span class="tag">Primaria</span><span class="tag">ESO</span><span class="tag">Bachillerato</span></div></div></div><div class="chunk"><span class="label">En Narnia</span><p>La Mesa de Piedra se rompe al amanecer. Aslan resucita más radiante que antes.</p></div><div class="chunk"><span class="label">Significado cristiano</span><p>La Resurrección de Cristo: centro absoluto de la fe cristiana y victoria definitiva sobre la muerte.</p></div><div class="chunk"><span class="label">En Narnia 2026</span><p>El acto del escenario central se convierte en el gran amanecer del evento.</p></div><div class="key">Idea clave · El escenario central es el amanecer de Narnia.</div></article>
+        <article class="card"><div class="card-head"><div class="icon">🪨</div><div><h3>Liberación de los convertidos en piedra</h3><div class="tags"><span class="tag">Primaria</span><span class="tag">ESO</span><span class="tag gold">Acción solidaria</span></div></div></div><div class="chunk"><span class="label">En Narnia</span><p>Aslan sopla sobre las estatuas del castillo de la Bruja y devuelve la vida una a una.</p></div><div class="chunk"><span class="label">Significado cristiano</span><p>Imagen de la gracia, del bautismo y del Espíritu Santo que renueva donde reinaba la muerte.</p></div><div class="chunk"><span class="label">En Narnia 2026</span><p>Cada prueba superada libera Narnia. La donación a ADISIL prolonga ese gesto en una acción concreta.</p></div><div class="key">Idea clave · El amor se convierte en acción liberadora.</div></article>
+        <article class="card"><div class="card-head"><div class="icon">👑</div><div><h3>La coronación final en Cair Paravel</h3><div class="tags"><span class="tag">Primaria</span><span class="tag">ESO</span><span class="tag">Bachillerato</span></div></div></div><div class="chunk"><span class="label">En Narnia</span><p>Los cuatro Pevensie son coronados. Narnia queda restaurada en paz, justicia y orden bajo el reinado de Aslan.</p></div><div class="chunk"><span class="label">Significado cristiano</span><p>El Reino de Dios: restauración definitiva, triunfo pleno del bien y horizonte final de la historia.</p></div><div class="chunk"><span class="label">En Narnia 2026</span><p>El cierre del evento expresa una imagen eclesial de comunión y misión compartida.</p></div><div class="key">Idea clave · Somos Iglesia; juntos construimos el Reino de paz.</div></article>
+      </div>
+    </section>
+
+    <section class="section" id="profesor">
+      <div class="section-title"><div><div class="eyebrow">Acompañamiento docente</div><h2 class="serif">El papel del profesor en la experiencia</h2></div><p>El docente no es solo acompañante logístico. Es mediador pedagógico, intérprete simbólico y presencia que ayuda a los alumnos a mirar y comprender.</p></div>
+      <div class="teacher">
+        <article class="panel"><h3 class="serif" style="margin-top:0;color:#fff;font-size:1.7rem;">Acompañar, interpretar, prolongar</h3><div class="checklist"><div class="check"><div class="num">1</div><div><strong>Antes del evento:</strong> preparar el imaginario, presentar a Lewis y anticipar el contraste entre invierno y esperanza.</div></div><div class="check"><div class="num">2</div><div><strong>Durante la jornada:</strong> ayudar a leer cada prueba como parte de una historia mayor, no como actividad aislada.</div></div><div class="check"><div class="num">3</div><div><strong>Después:</strong> recoger preguntas, resonancias y símbolos para llevar la experiencia de nuevo al aula.</div></div></div></article>
+        <article class="panel"><h3 class="serif" style="margin-top:0;color:#fff;font-size:1.7rem;">Tres claves por etapa</h3><div class="checklist"><div class="check"><div class="num">P</div><div><strong>Primaria:</strong> asombro, contraste entre frío y vida, y descubrimiento de Aslan como presencia buena que salva.</div></div><div class="check"><div class="num">S</div><div><strong>Secundaria:</strong> elección, tentación, pertenencia y lectura moral del sacrificio de Aslan.</div></div><div class="check"><div class="num">B</div><div><strong>Bachillerato:</strong> lectura teológica explícita, simbolismo cristológico y dimensión comunitaria del Reino.</div></div></div></article>
+      </div>
+    </section>
+
+    <section class="section" id="bibliografia">
+      <div class="section-title"><div><div class="eyebrow">Nueva pestaña integrada</div><h2 class="serif">Bibliografía de Narnia y aparato crítico</h2></div><p>Esta sección queda unida a la app web móvil visual. Recoge obras básicas de Lewis, estudios sobre Narnia y claves críticas para el profesorado.</p></div>
+      <div class="bib-grid">
+        <article class="panel"><h3 class="serif" style="margin-top:0;color:#fff;font-size:1.7rem;">Bibliografía básica</h3><div class="bib-list">
+          <div class="bib-item"><strong>C. S. Lewis, <em>El león, la bruja y el armario</em>.</strong><span>Texto fundamental para trabajar la figura de Aslan, el sacrificio y la restauración de Narnia.</span></div>
+          <div class="bib-item"><strong>C. S. Lewis, <em>Las crónicas de Narnia</em>.</strong><span>Conjunto narrativo imprescindible para situar el imaginario completo de Narnia y su horizonte cristiano.</span></div>
+          <div class="bib-item"><strong>C. S. Lewis, <em>Mero cristianismo</em>.</strong><span>Obra clave para comprender el trasfondo apologético y teológico del autor.</span></div>
+          <div class="bib-item"><strong>C. S. Lewis, <em>Cartas del diablo a su sobrino</em>.</strong><span>Ayuda a leer la antropología moral de Lewis y su comprensión del mal y de la tentación.</span></div>
+          <div class="bib-item"><strong>C. S. Lewis, <em>La abolición del hombre</em>.</strong><span>Referencia central para entender su visión ética, educativa y humanista.</span></div>
+          <div class="bib-item"><strong>Walter Hooper, ediciones y estudios sobre C. S. Lewis.</strong><span>Útiles para contextualizar el pensamiento del autor y su recepción crítica.</span></div>
+        </div></article>
+        <article class="panel"><h3 class="serif" style="margin-top:0;color:#fff;font-size:1.7rem;">Aparato crítico para el profesorado</h3><div class="crit-list">
+          <div class="crit"><strong>1. Lectura cristológica</strong> Aslan no es una alegoría plana, sino una figura suposicional de Cristo: Lewis imagina cómo actuaría el Hijo de Dios en otro mundo.</div>
+          <div class="crit"><strong>2. El mal como seducción</strong> La Bruja Blanca y Edmund permiten trabajar la lógica del pecado no solo como transgresión, sino como fascinación y engaño.</div>
+          <div class="crit"><strong>3. La Mesa de Piedra</strong> El sacrificio de Aslan constituye el centro de gravedad teológico del relato y conecta con la categoría de redención vicaria.</div>
+          <div class="crit"><strong>4. Resurrección y restauración</strong> La ruptura de la Mesa y la liberación de los petrificados expresan la victoria de la vida sobre la muerte y la renovación de la creación.</div>
+          <div class="crit"><strong>5. Dimensión pedagógica</strong> Narnia ofrece un lenguaje simbólico potente para introducir a los alumnos en grandes núcleos de la fe cristiana sin reducirlos a conceptos abstractos.</div>
+          <div class="crit"><strong>6. Uso didáctico</strong> Conviene leer cada símbolo en tres niveles: narrativo, teológico y experiencial, conectándolo con lo vivido en la jornada de La Granja.</div>
+        </div></article>
+      </div>
+      <div class="cta"><h3 class="serif">Versión estable para abrir desde móvil</h3><p>Esta edición elimina los vídeos que daban problemas y conserva solo elementos visuales ligeros, para que la app web se abra mejor al compartirla por enlace.</p></div>
+    </section>
+
+
+    <section class="section" id="legado">
+      <div class="section-title">
+        <div><div class="eyebrow">Memoria y proyección</div><h2 class="serif">Huella viva de una experiencia compartida</h2></div>
+        <p>Esta sección está pensada para recoger la historia del proyecto y los reconocimientos obtenidos a lo largo de los años, presentándolos como parte de su identidad educativa, pastoral y cultural.</p>
+      </div>
+      <div class="bib-grid">
+        <article class="panel">
+          <h3 class="serif" style="margin-top:0;color:#fff;font-size:1.7rem;">Una historia que crece con cada edición</h3>
+          <div class="crit-list">
+            <div class="crit"><strong>Origen</strong>La actividad nació como una propuesta de encuentro entre fe, literatura y experiencia compartida, buscando traducir grandes símbolos cristianos a un lenguaje pedagógico cercano para niños y jóvenes.</div>
+            <div class="crit"><strong>Consolidación</strong>Con el paso de los años, la jornada ha ido ampliando su alcance, su calidad organizativa y su capacidad de convocatoria, hasta convertirse en una de las experiencias más visibles y queridas del calendario educativo diocesano.</div>
+            <div class="crit"><strong>Identidad</strong>Su fuerza está en unir tres dimensiones poco frecuentes en una sola propuesta: profundidad teológica, creatividad narrativa y una vivencia comunitaria a gran escala.</div>
+            <div class="crit"><strong>Proyección</strong>Cada nueva edición no repite simplemente una fórmula anterior, sino que actualiza el proyecto, lo hace crecer y fortalece su impacto en colegios, profesores, familias y alumnado.</div>
+          </div>
+        </article>
+        <article class="panel">
+          <h3 class="serif" style="margin-top:0;color:#fff;font-size:1.7rem;">Reconocimientos y valoración recibida</h3>
+          <div class="bib-list">
+            <div class="bib-item"><strong>Reconocimiento educativo</strong><span>La actividad ha sido valorada por su capacidad para convertir un contenido cultural y religioso complejo en una experiencia accesible, memorable y pedagógicamente sólida.</span></div>
+            <div class="bib-item"><strong>Reconocimiento pastoral</strong><span>Se ha consolidado como una propuesta significativa de evangelización educativa, al ofrecer una vivencia de fe compartida en clave positiva, creativa y comunitaria.</span></div>
+            <div class="bib-item"><strong>Reconocimiento organizativo</strong><span>La participación sostenida de centros, profesorado, voluntariado y entidades colaboradoras ha reforzado su prestigio como iniciativa bien coordinada y de gran impacto.</span></div>
+            <div class="bib-item"><strong>Reconocimiento social</strong><span>Su dimensión solidaria y su capacidad de movilización han contribuido a que la experiencia sea percibida como un proyecto con repercusión real más allá del propio evento.</span></div>
+            <div class="bib-item"><strong>Reconocimiento institucional</strong><span>A lo largo del tiempo, la actividad ha ido ganando visibilidad dentro del marco diocesano como una referencia de creatividad educativa y trabajo en comunión.</span></div>
+          </div>
+        </article>
+      </div>
+      <div class="cta">
+        <h3 class="serif">Una historia que merece ser contada</h3>
+        <p>Aquí puedes añadir, cuando quieras, fechas concretas, número de ediciones, premios, menciones públicas, testimonios o hitos relevantes para completar la memoria oficial de la actividad con datos exactos.</p>
+      </div>
+    </section>
+
+
+    <footer class="section" id="footer">
+      <div class="panel footer">
+        <div>
+          <h4>Diócesis de Getafe · Delegación Diocesana de Enseñanza</h4>
+          <p>Viaje a Narnia 2026 · La Granja de San Ildefonso · 17 de abril de 2026</p>
+          <div class="footer-meta"><span>Rubén Martínez Cavero</span><span>rubenmartinezddegetafe@gmail.com</span><span>649 122 506</span><span>Documento para el profesorado</span></div>
+        </div>
+        <div class="pill">App web visual actualizada</div>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
